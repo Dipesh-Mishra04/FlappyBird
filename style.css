@@ -1,0 +1,69 @@
+/* Set full-page background */
+body {
+    background: url("bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+}
+
+/* Center the game container */
+#game-container {
+    width: 400px;
+    height: 500px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Canvas Styling */
+canvas {
+    display: block;
+    background: url("game-bg.png") no-repeat center center;
+    background-size: cover;
+}
+
+/* Score Display */
+#score {
+    font-size: 20px;
+    font-weight: bold;
+    color: yellow;
+    text-shadow: 2px 2px 4px black;
+}
+
+/* Start Screen */
+#start-screen {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+/* Game Over Screen */
+#game-over-screen {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: red;
+    font-size: 22px;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: yellow;
+    color: black;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: orange;
+}
