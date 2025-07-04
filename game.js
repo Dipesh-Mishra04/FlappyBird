@@ -299,5 +299,14 @@ function restartGame() {
     gameLoop();
 }
 
+// Add touch support for restart button on mobile devices
+const restartButton = document.getElementById("restart-button");
+if (restartButton) {
+    restartButton.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        restartGame();
+    }, { passive: false });
+}
+
 // Initialize game on load
 init();
