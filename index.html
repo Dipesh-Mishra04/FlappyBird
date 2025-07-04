@@ -15,6 +15,7 @@
 
             <!-- Score Display -->
             <div id="score" class="position-absolute text-white" style="top: 10px; left: 10px;">Score: 0</div>
+            <button id="volume-button" class="btn btn-warning mt-3" style="display:none;">🔈</button>
 
             <!-- Start Screen -->
             <div
@@ -25,7 +26,6 @@
                 <h2 class="text-light">
                     Press <span class="text-warning">Space or touch </span> to Start
                 </h2>
-                <button id="volume-button" class="btn btn-warning mt-3" style="display:none;">🔈</button>
             </div>
 
             <div
@@ -50,13 +50,10 @@
             <div
                 id="game-over-screen"
                 class="position-absolute text-center"
-                style="top: 50%; left: 50%; transform: translate(-50%, -50%); display: none"
+                style="top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 10001;"
             >
-                <img src="gameover.jpg" alt="Game Over" />
-                <p class="text-light">
-                    Your Score: <span id="final-score">0</span>
-                </p>
-                <button class="btn btn-warning" onclick="restartGame()">Restart</button>
+                <img src="gameover.jpg" alt="Game Over" style="max-width: 100%; max-height: 80vh; border-radius: 10px;" />
+                <button class="btn btn-warning mt-3" onclick="restartGame()" style="z-index: 10001;">Restart</button>
             </div>
         </div>
     </div>

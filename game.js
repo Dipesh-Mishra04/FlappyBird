@@ -39,10 +39,31 @@ class Bird {
         this.velocity = 0;
         this.gravity = 0.12;
         this.lift = -3.5;
+        this.animationFrame = 0;
+        this.isColliding = false;
     }
 
     draw() {
-        ctx.drawImage(birdImg, this.x, this.y, this.width, this.height);
+        if (this.isColliding) {
+            // Draw bird without flying animation during collision
+            ctx.drawImage(birdImg, this.x, this.y, this.width, this.height);
+        } else {
+            // Flying animation: up/down movement with subtle shake and rotation for realism
+            let flyAmplitude = 5;
+            let flySpeed = 0.1;
+            let offsetY = Math.sin(this.animationFrame * flySpeed) * flyAmplitude;
+            let shakeAmplitude = 2;
+            let shakeX = Math.sin(this.animationFrame * flySpeed * 2) * shakeAmplitude;
+            let rotation = Math.sin(this.animationFrame * flySpeed * 2) * 0.1;
+
+            ctx.save();
+            ctx.translate(this.x + shakeX + this.width / 2, this.y + offsetY + this.height / 2);
+            ctx.rotate(rotation);
+            ctx.drawImage(birdImg, -this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.restore();
+
+            this.animationFrame++;
+        }
     }
 
     update() {
@@ -261,8 +282,11 @@ let isMusicPlaying = false;
 function startGame() {
     if (!gameStarted) {
         gameStarted = true;
-        // Do not auto-play background music here
         document.getElementById("start-screen").style.display = "none";
+        backgroundMusic.loop = true;
+        backgroundMusic.play().catch(() => {
+            // Autoplay might be blocked, will be unlocked on user interaction
+        });
         gameLoop();
     }
     bird.flap();
@@ -306,8 +330,23 @@ function endGame() {
     backgroundMusic.pause();
     gameOver = true;
     cancelAnimationFrame(animationFrame);
-    document.getElementById("game-over-screen").style.display = "block";
-    document.getElementById("final-score").innerText = score;  // Update final score display
+    bird.isColliding = true;
+    const gameOverScreen = document.getElementById("game-over-screen");
+    if (gameOverScreen) {
+        // Update final score display before showing
+        const finalScoreElem = document.getElementById("final-score");
+        if (finalScoreElem) {
+            finalScoreElem.innerText = score;
+        }
+        gameOverScreen.style.display = "block";
+        // Trigger animation
+        gameOverScreen.classList.remove("animated", "show");
+        void gameOverScreen.offsetWidth; // Trigger reflow
+        gameOverScreen.classList.add("animated");
+        setTimeout(() => {
+            gameOverScreen.classList.add("show");
+        }, 1500); // After animation duration
+    }
 }
 
 // Restart game

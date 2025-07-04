@@ -23,14 +23,10 @@ canvas {
     display: block;
     background: url("game-bg.png") no-repeat center center;
     background-size: cover;
-}
-
-/* Score Display */
-#score {
-    font-size: 20px;
-    font-weight: bold;
-    color: yellow;
-    text-shadow: 2px 2px 4px black;
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 500px;
 }
 
 /* Start Screen */
@@ -51,6 +47,7 @@ canvas {
     position: absolute;
     top: 10px;
     right: 10px;
+    z-index: 1000;
     background-color: #ffc107;
     color: black;
     border: none;
@@ -64,11 +61,96 @@ canvas {
 
 /* Game Over Screen */
 #game-over-screen {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
+    background: transparent;
+    padding: 0;
     border-radius: 10px;
-    color: red;
+    color: white;
     font-size: 22px;
+    width: 600px;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    overflow: visible;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease-in-out;
+}
+
+#score {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: yellow;
+  text-shadow: 2px 2px 4px black;
+  z-index: 2;
+}
+
+
+#game-over-screen > * {
+    z-index: 10001;
+    color: white;
+    text-shadow: 2px 2px 8px black;
+}
+
+#game-over-screen button {
+    z-index: 10001;
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    bottom: 20px;
+}
+
+#game-over-screen button:hover {
+    background-color: orange;
+}
+
+#game-over-screen.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@keyframes fadeInSlide {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#game-over-screen.animated {
+    animation: fadeInSlide 1.5s forwards;
+}
+
+#game-over-screen img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 15px;
 }
 
 /* Button Styling */
@@ -103,9 +185,11 @@ button:hover {
     }
 
     #score {
+        position : fixed;
+        top: 10px !important;
+        left: 15px !important;
         font-size: 16px;
-        top: 5px !important;
-        left: 5px !important;
+        transform: none !important;
     }
 
     #start-screen {
@@ -117,4 +201,21 @@ button:hover {
         font-size: 16px;
         padding: 12px 24px;
     }
+}
+@media screen and (max-width: 480px) {
+  #game-over-screen {
+    width: 95vw;
+    padding: 0.75rem;
+  }
+
+  #game-over-screen img {
+    max-height: 40vh;
+    margin-bottom: 0.5rem;
+  }
+
+  #game-over-screen button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+  }
 }
