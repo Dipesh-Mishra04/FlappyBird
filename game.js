@@ -256,16 +256,37 @@ document.addEventListener("touchstart", (event) => {
     bird.flap();
 }, { passive: false });
 
+let isMusicPlaying = false;
+
 function startGame() {
     if (!gameStarted) {
         gameStarted = true;
-        backgroundMusic.loop = true;
-        backgroundMusic.play();
+        // Do not auto-play background music here
         document.getElementById("start-screen").style.display = "none";
         gameLoop();
     }
     bird.flap();
 }
+
+// Volume button toggle logic
+document.addEventListener("DOMContentLoaded", () => {
+    const volumeButton = document.getElementById("volume-button");
+    if (volumeButton) {
+        volumeButton.style.display = "block"; // Show volume button on start screen
+        volumeButton.addEventListener("click", () => {
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                volumeButton.innerText = "🔈"; // Muted icon
+                isMusicPlaying = false;
+            } else {
+                backgroundMusic.loop = true;
+                backgroundMusic.play();
+                volumeButton.innerText = "🔊"; // Sound on icon
+                isMusicPlaying = true;
+            }
+        });
+    }
+});
 
 // Pause & Resume Game
 function togglePause() {
@@ -304,13 +325,40 @@ document.addEventListener("DOMContentLoaded", () => {
     if (restartButton) {
         restartButton.addEventListener("click", (event) => {
             event.preventDefault();
+            console.log("Restart button clicked");
             restartGame();
         });
         restartButton.addEventListener("touchstart", (event) => {
             event.preventDefault();
+            console.log("Restart button touched");
             restartGame();
         }, { passive: false });
     }
+
+    // Fallback: add touchstart listener on game-over screen to restart game
+    const gameOverScreen = document.getElementById("game-over-screen");
+    if (gameOverScreen) {
+        gameOverScreen.addEventListener("touchstart", (event) => {
+            event.preventDefault();
+            console.log("Game over screen touched - restarting game");
+            restartGame();
+        }, { passive: false });
+    }
+
+    // Unlock audio context on first user interaction for mobile browsers
+    function unlockAudio() {
+        backgroundMusic.play().then(() => {
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+            console.log("Audio context unlocked");
+        }).catch((e) => {
+            console.log("Audio unlock failed:", e);
+        });
+        document.removeEventListener("touchstart", unlockAudio);
+        document.removeEventListener("click", unlockAudio);
+    }
+    document.addEventListener("touchstart", unlockAudio, { once: true });
+    document.addEventListener("click", unlockAudio, { once: true });
 });
 
 // Initialize game on load
