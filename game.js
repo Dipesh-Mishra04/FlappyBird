@@ -247,6 +247,15 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+// Add touch support for mobile devices
+document.addEventListener("touchstart", (event) => {
+    event.preventDefault();
+    if (!gameStarted) {
+        startGame();
+    }
+    bird.flap();
+}, { passive: false });
+
 function startGame() {
     if (!gameStarted) {
         gameStarted = true;
