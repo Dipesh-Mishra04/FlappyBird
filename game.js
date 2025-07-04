@@ -2,9 +2,14 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Set canvas size
-canvas.width = 400;
-canvas.height = 500;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+// Set size on load
+window.addEventListener("load", resizeCanvas);
+// Resize dynamically if screen rotates or changes
+window.addEventListener("resize", resizeCanvas);
 
 // Load assets
 const birdImg = new Image();

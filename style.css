@@ -20,14 +20,13 @@ body {
 
 /* Canvas Styling */
 canvas {
-    display: block;
-    background: url("game-bg.png") no-repeat center center;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    max-width: 400px;
-    max-height: 500px;
+  display: block;
+  background: url("game-bg.png") no-repeat center center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
 }
+
 
 /* Start Screen */
 #start-screen {
